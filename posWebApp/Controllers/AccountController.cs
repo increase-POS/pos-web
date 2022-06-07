@@ -159,8 +159,10 @@ namespace posWebApp.Controllers
                     Response.Cookies.Add(cookie);
                     //FormsAuthentication.SetAuthCookie(userModel.username, false);
                 }
+
+                FormsAuthentication.SetAuthCookie(userModel.username, false);
                 #endregion
-               
+
 
                 Session["UserName"] = userModel.fullName;
                 Session["UserID"] = userModel.userId;
