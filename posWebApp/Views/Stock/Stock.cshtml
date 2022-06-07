@@ -1,0 +1,95 @@
+﻿@model posWebApp.Models.ItemUnitViewModel
+@using posWebApp.CustomeHelper
+@using posWebApp.Resources
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    //ViewBag.Title = "Home Page";
+    System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(Session["lang"] as string);
+    System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+}
+
+
+    <section class="statis">
+        @using (Html.BeginForm("Stock", "Stock", FormMethod.Post, new { id = "form1" }))
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="main-list">
+                            <span></span>
+                            <div class="form-group">
+                                <label for="cnames">@AppResource.Branches</label>
+                                @Html.DropDownListFor(m => m.branchId, new SelectList(ViewBag.branches, "branchId", "name"), AppResource.All, new { @class = "form-control", name = "branchId", Id = "branchId", @onChange = "refreshFunc();" })
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-12">
+                        <div class="grid-block">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr style="background-color: #e7f3fa;">
+                                        <th scope="col">@AppResource.SequenceNumber</th>
+                                        <th scope="col">@AppResource.ItemUnit</th>
+                                        <th scope="col">@AppResource.Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.PaginatedBlogs())
+                                    {
+                                        <tr>
+                                            <th scope="row">@item.sequence</th>
+                                            <td>@Html.concatStrings(item.itemName, item.unitName)</td>
+                                            <td>@item.quantity</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (Model.ItemsUnits.Count() > 0)
+                            {
+                                <nav aria-label="...">
+                                    <ul class="pagination">
+                                        <li class="@(Model.CurrentPage > 1 ? "page-item " : "page-item disabled")">
+                                            <a class="page-link" href="@Url.Action("Stock", "Stock", new { branchId = Model.branchId, page = Model.CurrentPage - 1 })" tabindex="-1">@AppResource.Previous</a>
+                                        </li>
+                                        @for (int i = 1; i <= Model.PageCount(); i++)
+                                        {
+                                            <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item ")">
+                                                <a class="page-link" href="@Url.Action("Stock", "Stock", new { branchId = Model.branchId, page = i })">@i</a>
+                                            </li>
+                                        }
+                                        <li class="@(Model.CurrentPage < Model.PageCount() ? "page-item " : "page-item disabled")">
+                                            <a class="page-link" href="@Url.Action("Stock", "Stock", new { branchId = Model.branchId, page = Model.CurrentPage + 1 })">@AppResource.Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+        </section>
+
+<div class="scroll-to-top" title="Go Up">
+    <i class="fa fa-chevron-up fa-lg"></i>
+</div>
+<script>
+    function refreshFunc() {
+
+        var branchId = $('#branchId').val();
+
+        var action = 'Stock?branchId=' + branchId;
+        $('#form1').attr('action', action);
+
+        $('#form1').submit();
+        return false;
+    }
+
+</script>
