@@ -53,7 +53,7 @@ namespace posWebApp.Controllers
                 dt = DateTime.Now;
             else dt = (DateTime)dashBoardModel.startDate;
 
-            dashBoardModel = await dashBoardModel.GetDashBoardInfo(dashBoardModel.branchId, dt, dashBoardModel.endDate);
+            dashBoardModel = await dashBoardModel.GetDashBoardInfo(dashBoardModel.branchId, dt, dashBoardModel.endDate, int.Parse(Session["UserID"].ToString()));
             
             
             return View(dashBoardModel);
@@ -64,7 +64,7 @@ namespace posWebApp.Controllers
         {
             DashBoardModel dashBoardModel = new DashBoardModel();
             DateTime dt = DateTime.Now;
-            dashBoardModel = await dashBoardModel.GetDashBoardInfo(branchId, dt, dashBoardModel.endDate);
+            dashBoardModel = await dashBoardModel.GetDashBoardInfo(branchId, dt, dashBoardModel.endDate, int.Parse(Session["UserID"].ToString()));
 
             JsonResult result = this.Json(new
             {

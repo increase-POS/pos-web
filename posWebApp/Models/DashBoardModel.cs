@@ -22,7 +22,7 @@ namespace posWebApp.Models
         public DateTime? endDate { get; set; }
 
 
-        public async Task<DashBoardModel> GetDashBoardInfo(int? branchId, DateTime startDate, DateTime? endDate)
+        public async Task<DashBoardModel> GetDashBoardInfo(int? branchId, DateTime startDate, DateTime? endDate,int userId)
         {
             DashBoardModel items = new DashBoardModel();
 
@@ -32,6 +32,7 @@ namespace posWebApp.Models
             parameters.Add("branchId", branchId.ToString());
             parameters.Add("startDate", startDate.ToString());
             parameters.Add("endDate", endDate.ToString());
+            parameters.Add("userId", userId.ToString());
             // 
             IEnumerable<Claim> claims = await APIResult.getList("WebDashBoard/GetDashBoardInfo", parameters);
 
