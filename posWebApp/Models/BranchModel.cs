@@ -65,6 +65,8 @@ namespace posWebApp.Models
                     items.Add(JsonConvert.DeserializeObject<BranchModel>(c.Value, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" }));
                 }
             }
+
+            items = items.Where(x => x.branchId != 1).ToList();
             return items;
         }
     }
