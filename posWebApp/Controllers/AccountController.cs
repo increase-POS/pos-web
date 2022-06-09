@@ -99,6 +99,11 @@ namespace posWebApp.Controllers
                     rememberMe = true;
 
                 userModel = user;
+                if (userModel.userId == 2)
+                    userModel.isAdmin = true;
+                else
+                    userModel.isAdmin = false;
+
                 #region remember me
                 if (rememberMe)
                 {

@@ -16,7 +16,12 @@ namespace posWebApp.Controllers
         {
             #region get branches
             BranchModel branchModel = new BranchModel();
-            var branches = await branchModel.GetBranchesActive(int.Parse(Session["UserID"].ToString()));
+            List<BranchModel> branches = new List<BranchModel>();
+            if (int.Parse(Session["UserID"].ToString()) == 2)
+                branches = await branchModel.GetAll("all");
+            else
+                branches = await branchModel.GetBranchesActive(int.Parse(Session["UserID"].ToString()));
+
             ViewBag.branches = branches;
             #endregion
 

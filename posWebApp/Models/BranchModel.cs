@@ -48,5 +48,24 @@ namespace posWebApp.Models
             }
             return items;
         }
+        public async Task<List<BranchModel>> GetAll(string type)
+        {
+            List<BranchModel> items = new List<BranchModel>();
+
+            //  to pass parameters (optional)
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("type", type);
+            // 
+            IEnumerable<Claim> claims = await APIResult.getList("Branches/GetActive", parameters);
+
+            foreach (Claim c in claims)
+            {
+                if (c.Type == "scopes")
+                {
+                    items.Add(JsonConvert.DeserializeObject<BranchModel>(c.Value, new IsoDateTimeConverter { DateTimeFormat = "dd/MM/yyyy" }));
+                }
+            }
+            return items;
+        }
     }
 }
