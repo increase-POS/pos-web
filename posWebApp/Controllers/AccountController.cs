@@ -81,7 +81,7 @@ namespace posWebApp.Controllers
             #region after post
             string password = HelpClass.MD5Hash("Inc-m" + userModel.password);
             var user= await userModel.Getloginuser(userModel.username, password);
-            if (user.username == null)
+            if (user.userId == 0)
             {
                 ViewBag.message = AppResource.InvalidLogin;
                 return View(userModel);
