@@ -22,6 +22,11 @@ namespace posWebApp.Controllers
                 Session["UserName"] = HttpUtility.UrlDecode(Request.Cookies["Cookie1"].Values["UserName"]);
                 Session["UserID"] = Request.Cookies["Cookie1"].Values["UserID"];
                 Session["Image"] = Request.Cookies["Cookie1"].Values["Image"];
+                Session["lang"] = Request.Cookies["Cookie1"].Values["lang"];
+                Session["isAdmin"] = Request.Cookies["Cookie1"].Values["isAdmin"];
+
+                if(bool.Parse(Session["isAdmin"].ToString()) == false)
+                    return RedirectToAction("DeliveryList", "Delivery");
             }
             #endregion
            
