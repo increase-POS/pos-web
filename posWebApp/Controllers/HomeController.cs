@@ -86,30 +86,12 @@ namespace posWebApp.Controllers
             return result;
         }
 
-        //public FileResult GetFileFromBytes(byte[] bytesIn)
-        //{
-        //    return File(bytesIn, "image/jpeg");
-        //}
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetUserImageFile()
-        //{
-        //    UserModel user = new UserModel();
-        //    var image = Session["Image"];
-        //    var imageArr = await user.downloadImage(Session["Image"].ToString());
-        //    if (imageArr == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    FileResult imageUserFile = GetFileFromBytes(imageArr);
-        //    return imageUserFile;
-        //}
 
         [AllowAnonymous]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Increase Group.";
 
             return View();
         }

@@ -31,44 +31,25 @@ namespace posWebApp.Controllers
                 Session["lang"] = Request.Cookies["Cookie1"].Values["lang"];
                 Session["isAdmin"] = Request.Cookies["Cookie1"].Values["isAdmin"];
 
-                #region authintication
-                //FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket
-                //               (
-                //               1,
-                //               Session["UserName"].ToString(),
-                //               DateTime.Now,
-                //               DateTime.Now.AddMinutes(15), // expiry
-                //               false,
-                //               "",
-                //               "/"
-                //               );
-
-                ////encrypt the ticket and add it to a cookie
-                //string enTicket = FormsAuthentication.Encrypt(authTicket);
-                //HttpCookie cookie = new HttpCookie("Cookie1", enTicket);
-                //cookie.Expires = DateTime.Now.AddMinutes(15);
-                //cookie.HttpOnly = false;
-                //cookie.Values.Add("UserName", Session["UserName"].ToString());
-                //cookie.Values.Add("UserId", Session["UserID"].ToString());
-                //cookie.Values.Add("Image", Session["Image"].ToString());
-
-                //Response.Charset = "UTF-8";
-                //Response.Cookies.Add(cookie);
+                #region get user permissions
+                PermissionModel permissionModel = new PermissionModel();
+                permissionModel = await permissionModel.GetPermissions(int.Parse(Session["UserID"].ToString()));
+                Session["showDashBoard"] = permissionModel.showDashBoard;
+                Session["showAccountRep"] = permissionModel.showAccountRep;
+                Session["showStock"] = permissionModel.showStock;
+                Session["showDelivery"] = permissionModel.showDelivery;
                 #endregion
-                // FormsAuthentication.SetAuthCookie(Session["UserName"].ToString(), false);
+
                 #region get accuracy
                 await dashBoardModel.getAccuracy();
                 await dashBoardModel.getDefaultRegion();
 
                 #endregion
-                if (bool.Parse(Session["isAdmin"].ToString()) == true)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return RedirectToAction("DeliveryList", "Delivery");
-                }
+
+                #region redirect according to permission
+                return RedirectUser();
+
+                #endregion
             }
             #endregion
             #region first load
@@ -88,21 +69,30 @@ namespace posWebApp.Controllers
             }
             else
             {
+                #region get accuracy
+                await dashBoardModel.getAccuracy();
+                await dashBoardModel.getDefaultRegion();
+
+                #endregion
+
                 #region get user lang
                 var lang  = await userModel.getUserLanguage(user.userId);
                 #endregion
 
-                #region get user role
+                #region get user permissions
+                PermissionModel permissionModel = new PermissionModel();
+                permissionModel = await permissionModel.GetPermissions(user.userId);
+
+                if (userModel.userId == 2)
+                    userModel.isAdmin = true;
+                else
+                    userModel.isAdmin = false;
                 #endregion
                 bool rememberMe = false;
                 if (userModel.RememberMe)
                     rememberMe = true;
 
                 userModel = user;
-                if (userModel.userId == 2)
-                    userModel.isAdmin = true;
-                else
-                    userModel.isAdmin = false;
 
                 #region remember me
                 if (rememberMe)
@@ -160,9 +150,9 @@ namespace posWebApp.Controllers
                     cookie.Values.Add("lang", lang);
                     cookie.Values.Add("isAdmin", userModel.isAdmin.ToString());
 
+
                     Response.Charset = "UTF-8";
                     Response.Cookies.Add(cookie);
-                    //FormsAuthentication.SetAuthCookie(userModel.username, false);
                 }
 
                 FormsAuthentication.SetAuthCookie(userModel.username, false);
@@ -174,34 +164,47 @@ namespace posWebApp.Controllers
                 Session["Image"] = userModel.image;
                 Session["info.image"] = "";
                 Session["lang"] = lang;
-                Session["isAdmin"] = userModel.isAdmin.ToString() ;
+                Session["isAdmin"] = userModel.isAdmin;
 
-                #region get accuracy
-                await dashBoardModel.getAccuracy();
-                await dashBoardModel.getDefaultRegion();
+                Session["showDashBoard"] = permissionModel.showDashBoard;
+                Session["showAccountRep"] = permissionModel.showAccountRep;
+                Session["showStock"] = permissionModel.showStock;
+                Session["showDelivery"] = permissionModel.showDelivery;
 
+                #region redirect
+
+               return RedirectUser();
+              
                 #endregion
-
-                if (userModel.isAdmin == true)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return RedirectToAction("DeliveryList", "Delivery");
-                }
             }
             #endregion
 
         }
 
-        public ActionResult CeckAccount()
-        {
-            if (bool.Parse(Session["isAdmin"].ToString()) == true)
-                return RedirectToAction("Index","Home");
-            else
-                return RedirectToAction("DeliveryList", "Delivery");
 
+        public ActionResult RedirectUser()
+        {
+            if (bool.Parse(Session["showDashBoard"].ToString()) == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else if (bool.Parse(Session["showAccountRep"].ToString()) == true)
+            {
+                return RedirectToAction("Customers", "Agent");
+            }
+            else if (bool.Parse(Session["showDelivery"].ToString()) == true)
+            {
+                return RedirectToAction("DeliveryList", "Delivery");
+            }
+            else if (bool.Parse(Session["showStock"].ToString()) == true)
+            {
+                return RedirectToAction("Stock", "Stock");
+            }
+            else
+            {
+                return RedirectToAction("About", "Home");
+
+            }
         }
         public ActionResult Logout()
         {

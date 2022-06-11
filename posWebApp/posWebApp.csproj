@@ -197,6 +197,7 @@
     <Compile Include="Models\ItemTransfer.cs" />
     <Compile Include="Models\ItemUnitModel.cs" />
     <Compile Include="Models\ItemUnitViewModel.cs" />
+    <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResource.ar.Designer.cs">
