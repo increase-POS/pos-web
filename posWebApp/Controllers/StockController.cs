@@ -27,7 +27,7 @@ namespace posWebApp.Controllers
 
             #region items units quantity
             ItemUnitModel itemUnit = new ItemUnitModel();
-            var itemsUnits = await itemUnit.GetStockInfo(itemUnitViewModel.branchId);
+            var itemsUnits = await itemUnit.GetStockInfo(itemUnitViewModel.branchId, int.Parse(Session["UserID"].ToString()));
 
             var itemsView = new ItemUnitViewModel
             {

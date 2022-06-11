@@ -22,7 +22,7 @@ namespace posWebApp.Models
 
 
         #region methods
-        public async Task<List<ItemUnitModel>> GetStockInfo(int branchId)
+        public async Task<List<ItemUnitModel>> GetStockInfo(int branchId, int userId)
         {
             List<ItemUnitModel> items = new List<ItemUnitModel>();
 
@@ -30,6 +30,7 @@ namespace posWebApp.Models
             Dictionary<string, string> parameters = new Dictionary<string, string>();
 
             parameters.Add("branchId", branchId.ToString());
+            parameters.Add("userId", userId.ToString());
             // 
             IEnumerable<Claim> claims = await APIResult.getList("WebDashBoard/GetStockInfo", parameters);
 
