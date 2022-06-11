@@ -79,8 +79,8 @@ namespace posWebApp.Controllers
             {
                 purchasesCount = dashBoardModel.purchasesCount,
                 salesCount = dashBoardModel.salesCount,
-                customersCount = dashBoardModel.customersCount,
-                vendorsCount = dashBoardModel.vendorsCount
+                balance = dashBoardModel.balance,
+                onLineUsersCount = dashBoardModel.onLineUsersCount
             }, JsonRequestBehavior.AllowGet);
 
             return result;
