@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using posWebApp.Models;
 using System.Web.Security;
 using posWebApp.Resources;
+using System.Web.Routing;
 //using System.Web.Http;
 
 namespace posWebApp.Controllers
@@ -16,7 +17,12 @@ namespace posWebApp.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-       [AllowAnonymous]
+        public void InitializeController(RequestContext context)
+        {
+            base.Initialize(context);
+        }
+
+        [AllowAnonymous]
         public async Task<ActionResult> Login(UserModel userModel)
         {
             DashBoardModel dashBoardModel = new DashBoardModel();
@@ -186,7 +192,7 @@ namespace posWebApp.Controllers
         {
             if (bool.Parse(Session["showDashBoard"].ToString()) == true)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home",new { redirect = 1});
             }
             else if (bool.Parse(Session["showAccountRep"].ToString()) == true)
             {

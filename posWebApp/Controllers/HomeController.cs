@@ -14,10 +14,10 @@ namespace posWebApp.Controllers
     {
         BranchModel branchModel = new BranchModel();
 
-        public async Task<ActionResult> Index(DashBoardModel dashBoardModel)
+        public async Task<ActionResult> Index(DashBoardModel dashBoardModel, int redirect)
         {
             #region set session values
-            if (Request.Cookies["Cookie1"] != null)
+            if (Request.Cookies["Cookie1"] != null && redirect != 1)
             {
                 Session["UserName"] = HttpUtility.UrlDecode(Request.Cookies["Cookie1"].Values["UserName"]);
                 Session["UserID"] = Request.Cookies["Cookie1"].Values["UserID"];
@@ -25,8 +25,19 @@ namespace posWebApp.Controllers
                 Session["lang"] = Request.Cookies["Cookie1"].Values["lang"];
                 Session["isAdmin"] = Request.Cookies["Cookie1"].Values["isAdmin"];
 
-                if(bool.Parse(Session["isAdmin"].ToString()) == false)
-                    return RedirectToAction("DeliveryList", "Delivery");
+                #region get user permissions
+                PermissionModel permissionModel = new PermissionModel();
+                permissionModel = await permissionModel.GetPermissions(int.Parse(Session["UserID"].ToString()));
+                Session["showDashBoard"] = permissionModel.showDashBoard;
+                Session["showAccountRep"] = permissionModel.showAccountRep;
+                Session["showStock"] = permissionModel.showStock;
+                Session["showDelivery"] = permissionModel.showDelivery;
+                #endregion
+
+                AccountController ac = new AccountController();
+                ac.ControllerContext = new ControllerContext(this.Request.RequestContext, ac);
+
+                return ac.RedirectUser();
             }
             #endregion
            
