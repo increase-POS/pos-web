@@ -28,7 +28,7 @@ namespace posWebApp.Controllers
             DashBoardModel dashBoardModel = new DashBoardModel();
 
             #region get user from cookie
-            if (Request.Cookies["Cookie1"] != null )
+            if (Request.Cookies["Cookie1"] != null && Request.Cookies["Cookie1"].Values["UserName"] == userModel.username)
             {
                 string name = Request.Cookies["Cookie1"].Values["Image"];
                 Session["UserName"] = Request.Cookies["Cookie1"].Values["UserName"];
