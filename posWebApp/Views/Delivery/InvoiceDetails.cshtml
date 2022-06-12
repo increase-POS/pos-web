@@ -20,7 +20,7 @@
                 <div class="bcrumb-block">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">@AppResource.DeliveryList</a></li>
+                            <li class="breadcrumb-item"><a id="a_title" href="#">@AppResource.DeliveryList</a></li>
                             <li class="breadcrumb-item active" aria-current="page">@AppResource.InvoiceDetails</li>
                         </ol>
                     </nav>
@@ -100,6 +100,7 @@
             <div class="col-12">
                 @using (Html.BeginForm("DeliveryList", "Delivery", FormMethod.Post, new { id = "form2" }))
                 {
+                    <input type="hidden" id="currentPage" value="@ViewBag.Page" />
                     <button class="btn btn-primary btn-block back">@AppResource.Back</button>
                 }
             </div>
@@ -109,3 +110,19 @@
 <div class="scroll-to-top" title="Go Up">
     <i class="fa fa-chevron-up fa-lg"></i>
 </div>
+
+<script>
+    $('#a_title').click(function () {
+        goBack();
+
+    });
+
+    function goBack() {
+        var currentPage = $('#currentPage').val();
+        var action = 'DeliveryList?page='+currentPage;
+        $('#form2').attr('action', action);
+        $('#form2').submit();
+
+        return false;
+    }
+</script>

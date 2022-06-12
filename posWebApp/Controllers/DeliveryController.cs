@@ -32,7 +32,7 @@ namespace posWebApp.Controllers
             return View(invoicesView);
         }
 
-        public async Task<ActionResult> InvoiceDetails(int invoiceId)
+        public async Task<ActionResult> InvoiceDetails(int invoiceId,int page)
         {
             InvoiceModel invoiceModel = new InvoiceModel();
             #region Invoice Details
@@ -56,7 +56,7 @@ namespace posWebApp.Controllers
             }
             #endregion
 
-            
+            ViewBag.Page = page;
             return View(invoiceModel);
         }
 
