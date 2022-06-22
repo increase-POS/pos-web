@@ -198,62 +198,59 @@ namespace posWebApp.Controllers
 
         public ActionResult RedirectUser()
         {
-            if (Session["showDashBoard"] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else if(bool.Parse(Session["showDashBoard"].ToString()) == true)
-            {
-                return RedirectToAction("Index", "Home",new { redirect = 1});
-            }
-            else if (bool.Parse(Session["showAccountRep"].ToString()) == true)
-            {
-                return RedirectToAction("Customers", "Agent");
-            }
-            else if (bool.Parse(Session["showDelivery"].ToString()) == true)
-            {
-                return RedirectToAction("DeliveryList", "Delivery");
-            }
-            else if (bool.Parse(Session["showStock"].ToString()) == true)
-            {
-                return RedirectToAction("Stock", "Stock");
-            }
-            else
-            {
-                return RedirectToAction("About", "Home");
+            try { 
+                if (Session["showDashBoard"] == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                else if(bool.Parse(Session["showDashBoard"].ToString()) == true)
+                {
+                    return RedirectToAction("Index", "Home",new { redirect = 1});
+                }
+                else if (bool.Parse(Session["showAccountRep"].ToString()) == true)
+                {
+                    return RedirectToAction("Customers", "Agent");
+                }
+                else if (bool.Parse(Session["showDelivery"].ToString()) == true)
+                {
+                    return RedirectToAction("DeliveryList", "Delivery");
+                }
+                else if (bool.Parse(Session["showStock"].ToString()) == true)
+                {
+                    return RedirectToAction("Stock", "Stock");
+                }
+                else
+                {
+                    return RedirectToAction("About", "Home");
 
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
             }
         }
         public ActionResult Logout()
         {
-            //clear cookie
-            if (Request.Cookies["Cookie1"] != null)
-            {
-                var c = new HttpCookie("Cookie1");
-                c.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(c);
+            try { 
+                //clear cookie
+                if (Request.Cookies["Cookie1"] != null)
+                {
+                    var c = new HttpCookie("Cookie1");
+                    c.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(c);
+                }
+
+                // remove authintication
+                FormsAuthentication.SignOut();
+                Session.Abandon();
+                return RedirectToAction("Login");
             }
-
-            // remove authintication
-            FormsAuthentication.SignOut();
-            Session.Abandon();
-            return RedirectToAction("Login");
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> removeAuthentication(int agentId)
-        {
-
-            // remove authintication
-            FormsAuthentication.SignOut();
-            Session.Abandon();
-           
-            JsonResult result = this.Json(new
+            catch
             {
-                res = "sucssess"
-            }, JsonRequestBehavior.AllowGet);
-
-            return result;
+                return RedirectToAction("Error", "Home");
+            }
         }
+
     }
 }

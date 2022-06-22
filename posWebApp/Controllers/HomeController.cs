@@ -112,17 +112,29 @@ namespace posWebApp.Controllers
         [AllowAnonymous]
         public ActionResult About()
         {
-            ViewBag.Message = "Increase Group.";
+            try { 
+                ViewBag.Message = "Increase Group.";
 
-            return View();
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [AllowAnonymous]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            try { 
+                ViewBag.Message = "Your contact page.";
 
-            return View();
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [AllowAnonymous]
