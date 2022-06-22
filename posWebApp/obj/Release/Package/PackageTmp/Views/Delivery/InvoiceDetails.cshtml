@@ -1,0 +1,111 @@
+﻿@model posWebApp.Models.InvoiceModel
+@using posWebApp.CustomeHelper
+@using posWebApp.Resources
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    //ViewBag.Title = "Home Page";
+    System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(Session["lang"] as string);
+    System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+}
+
+
+
+<section class="statis">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="bcrumb-block">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">@AppResource.DeliveryList</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@AppResource.InvoiceDetails</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="c-profile">
+                    <div class="row">
+                        <div class="col-4">
+                            @if (ViewBag.Image == null || ViewBag.Image == "")
+                            {
+                                <img src=@Url.Content("~/" + Session["lang"].ToString() + "/images/avatar.jpg") id="img_Customer" alt="" class="rounded mx-auto text-center">
+                            }
+                            else
+                            {
+                                <img src="@Url.Content(ViewBag.Image)" id="img_Customer" alt="" class="rounded mx-auto text-center">
+                            }
+                        </div>
+                        <div class="col-8 details">
+                            <div>
+                                <p><span>Invoice#: </span>@Model.invNumber</p>
+                            </div>
+                            <div>
+                                <p><span>Customer: </span>@Model.Agent.name</p>
+                            </div>
+                            <div>
+                                <p><span>Mobile: </span>@Model.Agent.mobile</p>
+                            </div>
+                            <div>
+                                <p><span>Address: </span>@Model.Agent.address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="grid-block">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr style="background-color: #e7f3fa;">
+                                <th scope="col">@AppResource.SequenceNumber</th>
+                                <th scope="col">@AppResource.ItemUnit</th>
+                                <th scope="col">@AppResource.Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            @foreach (var item in Model.InvoiceItems)
+                            { 
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>@Html.concatStrings(item.itemName, item.unitName)</td>
+                                    <td>@item.quantity</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="total-sign">
+                    <div class="row">
+                        <div class="col-6">
+                            <div>
+                                <p class="font-weight-bold text-primary text-uppercase text-center">total:</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <p class="text-center">@Html.accuracyFormatWithCurrency((string)Model.totalNet.ToString()) <span></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                @using (Html.BeginForm("DeliveryList", "Delivery", FormMethod.Post, new { id = "form2" }))
+                {
+                    <button class="btn btn-primary btn-block back">@AppResource.Back</button>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<div class="scroll-to-top" title="Go Up">
+    <i class="fa fa-chevron-up fa-lg"></i>
+</div>

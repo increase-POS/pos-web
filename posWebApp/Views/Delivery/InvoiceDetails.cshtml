@@ -9,6 +9,14 @@
     System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(Session["lang"] as string);
     System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
 
+
+    var btnStatusDisplay="";
+    if (Model.status == "Done") {
+        btnStatusDisplay = "none";
+    }
+    else {
+        btnStatusDisplay = "";
+    }
 }
 
 
@@ -97,9 +105,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12" id="div-btn-status" style="display:@btnStatusDisplay">
+                <button id="btn-status" class="btn btn-dark btn-block back" onclick="changeStatus()">
+                    @Html.invoiceNextStatusConverter(Model.status)
+                </button>
+            </div>
             <div class="col-12">
                 @using (Html.BeginForm("DeliveryList", "Delivery", FormMethod.Post, new { id = "form2" }))
                 {
+                    <input type="hidden" value="@Model.status" id="status" />
+                    <input type="hidden" value="@Model.invoiceId" id="invoiceId" />
                     <input type="hidden" id="currentPage" value="@ViewBag.Page" />
                     <button class="btn btn-primary btn-block back">@AppResource.Back</button>
                 }
@@ -112,6 +127,36 @@
 </div>
 
 <script>
+
+    function changeStatus() {
+        var invId = $('#invoiceId').val();
+        var status = $('#status').val();
+
+        $.ajax({
+            url: '@Url.Action("changeOrderStatus", "Delivery")',
+            data: { invoiceId: invId, status: status },
+            type: "POST",
+            async: false,
+            success: function (result) {
+                if (result.message != "") {
+                    $('#status').val(result.message);
+                    $('#btn-status').text(result.nextStatus);
+
+                    if (result.message == "Done")
+                        $('#div-btn-status').fadeOut(600);
+                }               
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert('oops, something bad happened');
+            }
+        });
+    }
+
+    $('#btn_back').click(function () {
+       
+        goBack();
+    });
+
     $('#a_title').click(function () {
         goBack();
 

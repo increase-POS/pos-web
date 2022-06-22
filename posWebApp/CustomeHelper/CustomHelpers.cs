@@ -126,6 +126,16 @@ namespace posWebApp.CustomeHelper
         {
             return str1 + " - " + str2;
         }
-        
+
+        public static string invoiceNextStatusConverter(this HtmlHelper helper, string status)
+        {
+            switch (status)
+            {
+                case "Ready": return AppResource.Collected;
+                case "Collected": return AppResource.InTheWay;
+                case "InTheWay": return AppResource.Done;
+            }
+            return "";
+        }
     }
 }

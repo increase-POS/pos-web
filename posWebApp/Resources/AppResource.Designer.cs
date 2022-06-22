@@ -151,6 +151,15 @@ namespace posWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collected.
+        /// </summary>
+        public static string Collected {
+            get {
+                return ResourceManager.GetString("Collected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company.
         /// </summary>
         public static string Company {
@@ -250,6 +259,15 @@ namespace posWebApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter &gt;&gt; .
         /// </summary>
         public static string Enter {
@@ -264,6 +282,15 @@ namespace posWebApp.Resources {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to InTheWay.
+        /// </summary>
+        public static string InTheWay {
+            get {
+                return ResourceManager.GetString("InTheWay", resourceCulture);
             }
         }
         

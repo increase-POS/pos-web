@@ -16,8 +16,10 @@ namespace posWebApp.Controllers
 
         public async Task<ActionResult> Index(DashBoardModel dashBoardModel, int redirect)
         {
+            try {
+                
             #region set session values
-            if (Request.Cookies["Cookie1"] != null && redirect != 1)
+                if (Request.Cookies["Cookie1"] != null)
             {
                 Session["UserName"] = HttpUtility.UrlDecode(Request.Cookies["Cookie1"].Values["UserName"]);
                 Session["UserID"] = Request.Cookies["Cookie1"].Values["UserID"];
@@ -34,10 +36,13 @@ namespace posWebApp.Controllers
                 Session["showDelivery"] = permissionModel.showDelivery;
                 #endregion
 
-                AccountController ac = new AccountController();
-                ac.ControllerContext = new ControllerContext(this.Request.RequestContext, ac);
+                if (bool.Parse(Session["showDashBoard"].ToString()) == false)
+                {
+                    AccountController ac = new AccountController();
+                    ac.ControllerContext = new ControllerContext(this.Request.RequestContext, ac);
 
-                return ac.RedirectUser();
+                    return ac.RedirectUser();
+                }
             }
             #endregion
            
@@ -77,6 +82,11 @@ namespace posWebApp.Controllers
             
             
             return View(dashBoardModel);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         [HttpPost]
@@ -112,6 +122,14 @@ namespace posWebApp.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Error()
+        {
+            if (Session["lang"] == null)
+                Session["lang"] = "en";
             return View();
         }
     }

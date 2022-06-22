@@ -276,4 +276,13 @@
   <data name="InvoiceDetails" xml:space="preserve">
     <value>تفاصيل الفاتورة</value>
   </data>
+  <data name="Collected" xml:space="preserve">
+    <value>مستلم</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="InTheWay" xml:space="preserve">
+    <value>على الطريق</value>
+  </data>
 </root>

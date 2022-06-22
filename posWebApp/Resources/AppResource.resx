@@ -276,4 +276,13 @@
   <data name="InvoiceDetails" xml:space="preserve">
     <value>Invoice Details</value>
   </data>
+  <data name="Collected" xml:space="preserve">
+    <value>Collected</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="InTheWay" xml:space="preserve">
+    <value>InTheWay</value>
+  </data>
 </root>

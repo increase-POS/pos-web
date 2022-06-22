@@ -25,11 +25,14 @@ namespace posWebApp.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login(UserModel userModel)
         {
+            try { 
             DashBoardModel dashBoardModel = new DashBoardModel();
-
+         
             #region get user from cookie
-            if (Request.Cookies["Cookie1"] != null && Request.Cookies["Cookie1"].Values["UserName"] == userModel.username)
+                if (Request.Cookies["Cookie1"] != null )
             {
+                FormsAuthentication.SetAuthCookie(userModel.username, false);
+
                 string name = Request.Cookies["Cookie1"].Values["Image"];
                 Session["UserName"] = Request.Cookies["Cookie1"].Values["UserName"];
                 Session["UserID"] = Request.Cookies["Cookie1"].Values["UserID"];
@@ -53,7 +56,8 @@ namespace posWebApp.Controllers
                 #endregion
 
                 #region redirect according to permission
-                return RedirectUser();
+                
+                    return RedirectUser();
 
                 #endregion
             }
@@ -183,14 +187,22 @@ namespace posWebApp.Controllers
               
                 #endregion
             }
-            #endregion
-
+                #endregion
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Home");
+            }
         }
 
 
         public ActionResult RedirectUser()
         {
-            if (bool.Parse(Session["showDashBoard"].ToString()) == true)
+            if (Session["showDashBoard"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else if(bool.Parse(Session["showDashBoard"].ToString()) == true)
             {
                 return RedirectToAction("Index", "Home",new { redirect = 1});
             }

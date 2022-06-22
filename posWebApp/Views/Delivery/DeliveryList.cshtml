@@ -30,10 +30,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr style="background-color: #e7f3fa;">
-                                    <th scope="col">@AppResource.SequenceNumber</th>
                                     <th scope="col">#</th>
                                     <th scope="col">@AppResource.Customer</th>
-                                    <th scope="col">@AppResource.Quantity</th>
                                     <th scope="col">.</th>
                                 </tr>
                             </thead>
@@ -41,17 +39,15 @@
                                 @foreach (var item in Model.PaginatedBlogs())
                                 {
                                     <tr>
-                                        <th scope="row">@item.sequence</th>
-                                        <td>@item.invNumber</td>
+                                        <th scope="row">@item.invNumber</th>
                                         <td>@item.agentName</td>
-                                        <td>@item.itemsCount</td>
                                         <td>
                                             @if (item.status == "ex")
                                             {
                                                 <button class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Confirm", "Delivery", new { invoiceId = item.invoiceId })'">@AppResource.Confirm</button>
                                             }
                                             else
-                                            {<button class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("InvoiceDetails", "Delivery", new { invoiceId = item.invoiceId,page = Model.CurrentPage })'">@AppResource.Details</button>}
+                                            {<button class="btn btn-danger btn-sm" onclick="location.href='@Url.Action("InvoiceDetails", "Delivery", new { invoiceId = item.invoiceId,status = item.status ,page = Model.CurrentPage })'">@AppResource.Details</button>}
 
 
                                         </td>

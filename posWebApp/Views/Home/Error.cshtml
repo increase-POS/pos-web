@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Homepage</title>
+    @if (Session["lang"].ToString() == "en")
+    {
+        <link rel="stylesheet" type="text/css" href=@Url.Content( "~/en/css/bootstrap.css") />
+        <link rel="stylesheet" type="text/css" href=@Url.Content( "~/en/css/font-awesome.css") />
+        <link rel="stylesheet" type="text/css" href=@Url.Content( "~/en/css/style.css") />
+
+        <script src="/en/js/jquery-2.1.3.min.js"></script>
+        <script src="/en/js/popper.min.js"></script>
+        <script src="/en/js/bootstrap.min.js"></script>
+        <script src="/en/js/main.js"></script>
+    }
+    else
+    {
+
+        <link rel="stylesheet" type="text/css" href=@Url.Content("~/ar/css/bootstrap-rtl.min.css") />
+        <link rel="stylesheet" type="text/css" href=@Url.Content( "~/ar/css/font-awesome.css") />
+        <link rel="stylesheet" type="text/css" href=@Url.Content( "~/ar/css/style.css") />
+
+        <script src="~/ar/js/jquery-2.1.3.min.js"></script>
+        <script src="~/ar/js/popper.min.js"></script>
+        <script src="~/ar/js/bootstrap.min.js"></script>
+        <script src="~/ar/js/main.js"></script>
+    }
+
+</head>
+
+<body>
+    <nav class="navbar navbar-light">
+        <div class="container">
+            <div class="logo ">
+                <a class="navbar-brand" href="@Url.Action("RedirectUser", "Account")">
+                    <img src="@Url.Content("~/"+Session["lang"].ToString()+"/images/increase-logo-01.png")" alt="">
+                </a>
+                <span> Increase POS</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="message-block">
+        <div class="container">
+            <div class="row align-content-center justify-content-center">
+                <div class="col-12">
+                    <h1 class="text-center"><strong>404</strong></h1>
+                    <h4 class="text-center"><strong>Not Found</strong></h4>
+                    <p class="text-center text-muted">The resource requested could not be found on this server!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <hr>
+            <div class="row">
+                <div class="col-12 copyright">
+                    <p>2022@All Right Reserved for Increase</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="scroll-to-top" title="Go Up">
+        <i class="fa fa-chevron-up fa-lg"></i>
+    </div>
+
+</body>
+</html>
+

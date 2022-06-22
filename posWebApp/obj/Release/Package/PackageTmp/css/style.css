@@ -1,0 +1,294 @@
+/* General */
+@font-face {
+  font-family: 'SF UI Display';
+  src: url('../fonts/Montserrat-Regular.ttf') format('truetype'), url('../fonts/Montserrat-Bold.ttf') format('truetype');
+}
+body {background-color: #e8e8e8;font-family: 'Montserrat', sans-serif; color:#6c6c6f;padding-bottom: 0 !important; direction: ltr; text-align: left;}
+body a:hover{text-decoration: none !important;}
+/* End General */
+
+/* Start Nabar */
+.navbar {
+  position: fixed;
+  padding: 20;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: none;
+  color: #FFF;
+  background-color: #000;
+  top: 0;
+  left: 0;
+  z-index: 1200;
+  width: 100%;
+}
+
+.navbar .main-menu-button {
+  display: none;
+}
+
+.navbar .logo img{
+  width: 50px;
+  margin-right: 10px;
+}
+
+.navbar .logo span{
+  font-size: 16px;
+}
+/* End Nabar */
+
+.statis {
+  margin-top: 100px;
+}
+
+.statis .branches {
+  position: relative;
+  background-color: #FFF;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.statis .branches span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  z-index: 300;
+  background-color: #1ba8e5;
+  height: 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.statis .branches label {
+  margin-top: 20px;
+}
+
+.statis .info-block {
+  position: relative;
+  background-color: #FFF;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.statis .info-block span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: block;
+  z-index: 310;
+  width: 20px;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+}
+
+.dark-blue {
+  background-color: #2a3a92;
+}
+
+.normal-blue {
+  background-color: #1d75b8;
+}
+
+.rose{
+  background-color: #ff5d6f;
+}
+
+.orange{
+  background-color: #ffb36b;
+}
+
+.green{
+  background-color: #00cc9e;
+}
+
+.purble{
+  background-color: #bc80ef;
+}
+
+.statis .info-block svg.purchase {
+  fill: #2a3a92;
+  width: 100%;
+  border-right: 1px solid #2a3a92;
+  height: 40px;
+}
+
+.statis .info-block svg.sales {
+  fill: #1d75b8;
+  width: 100%;
+  border-right: 1px solid #1d75b8;
+  height: 40px;
+}
+
+.statis .info-block svg.vendors {
+  fill: #ff5d6f;
+  width: 100%;
+  border-right: 1px solid #ff5d6f;
+  height: 40px;
+}
+
+.statis .info-block svg.customers {
+  fill: #ffb36b;
+  width: 100%;
+  border-right: 1px solid #ffb36b;
+  height: 40px;
+}
+
+.statis .info-block svg.users {
+  fill: #00cc9e;
+  width: 100%;
+  border-right: 1px solid #00cc9e;
+  height: 40px;
+}
+
+.statis .info-block svg.cash {
+  fill: #bc80ef;
+  width: 100%;
+  border-right: 1px solid #bc80ef;
+  height: 40px;
+}
+
+.statis .info-block label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Start Footer */
+
+footer {
+  margin-top: 40px;
+  width: 100%;
+}
+
+footer .copyright {
+  color: #a1a1a1;
+  font-size: 12px;
+}
+/* End Footer */
+
+/* Start Scroll To Top */
+.scroll-to-top {
+    padding: 10px 3px;
+    background: #178dd2;
+    color: #fff;
+    box-shadow: 0px 0px 5px #a7a7a7;
+    border-radius: 25px;
+    position: fixed;
+    bottom: 30px;
+    right: 25px;
+    text-decoration: none;
+    display: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.scroll-to-top:hover{
+    background: #49bbeb;
+}
+/* End Scroll To Top */
+
+/* Start main menu */
+.main-menu {
+  position: fixed;
+  display: block;
+  height: 100%;
+  width: 180px;
+  top: 59px;
+  left: -230px;
+  z-index: 1000;
+  background-color: #178dd2;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-shadow: 2px 2px 15px #a7a7a7;
+}
+
+.main-menu .nlist {
+  padding-left: 0 !important
+}
+
+.main-menu .nlist a {
+  display: block;
+  padding: 20px;
+  color: #9fd7f8;
+}
+
+.main-menu .nlist a i {
+  padding-right: 20px;
+}
+
+.main-menu .nlist a:hover, .main-menu .nlist a.active {
+  color: #fff;
+}
+
+.main-menu .avatar {
+  width: 90px;
+  margin: auto;
+  margin-bottom: 30px;
+}
+
+.main-menu .avatar img {
+  border-radius: 50%;
+}
+
+.main-menu .avatar p {
+  color: #fff;
+}
+/* End main menu */
+
+/* Start Login Form */
+.login-bg {
+  background-color: #f0f5f7;
+}
+
+#login .log-space {
+  margin: 100px auto;
+  background: #FFF;
+  border-radius: 25px;
+  box-shadow: 0 0 10px #ccc;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  width: 360px;
+}
+
+#login h4 {
+    color: #1ba8e5;
+    padding-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#login a {
+  font-size: 14px;
+  display: block;
+  padding-bottom: 10px !important;
+}
+
+#login a:hover {
+  text-decoration: underline !important;
+}
+
+#login button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+/* End Login Form */
+
+
+  nav .logo {
+    position: relative;
+    margin: auto;
+  }
+
+  .navbar .main-menu-button {
+    display: block;
+    font-size: 18px;
+    cursor: pointer;
+    width: 50px;
+  }
+
+  .navbar .main-menu-button .x {
+    display: none;
+  }
+

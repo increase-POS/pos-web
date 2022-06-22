@@ -18,7 +18,7 @@ namespace posWebApp.Controllers
             #region delivery man Invoices
             InvoiceModel invoiceModel = new InvoiceModel();
             string invoiceType = "s";
-            string invoiceStatus = "ex,tr,rc";
+            string invoiceStatus = "Ready,Collected,InTheWay,Done";
             var invoices = await invoiceModel.getDeliverOrders(invoiceType, invoiceStatus,int.Parse(Session["UserID"].ToString()));
 
             invoices = invoices.OrderBy(x => x.sequence).ToList();
@@ -32,7 +32,7 @@ namespace posWebApp.Controllers
             return View(invoicesView);
         }
 
-        public async Task<ActionResult> InvoiceDetails(int invoiceId,int page)
+        public async Task<ActionResult> InvoiceDetails(int invoiceId, string status,int page)
         {
             InvoiceModel invoiceModel = new InvoiceModel();
             #region Invoice Details
@@ -40,6 +40,7 @@ namespace posWebApp.Controllers
 
             invoiceModel = await invoiceModel.GetByInvoiceId(invoiceId);
             invoiceModel.InvoiceItems = await itemTransfer.GetInvoicesItems(invoiceModel.invoiceId);
+            invoiceModel.status = status;
             #endregion
 
             #region customer info
@@ -64,7 +65,7 @@ namespace posWebApp.Controllers
         {
             InvoiceModel invoiceModel = new InvoiceModel();
             invoiceStatus st = new invoiceStatus();
-            st.status = "tr";
+            st.status = "Collected";
             st.invoiceId = invoiceId;
             st.createUserId = int.Parse(Session["UserID"].ToString());
             st.isActive = 1;
@@ -72,6 +73,46 @@ namespace posWebApp.Controllers
 
 
             return RedirectToAction("DeliveryList", "Delivery");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> changeOrderStatus(int invoiceId, string status)
+        {
+            string nextStatus = "";
+
+            #region status object
+
+            invoiceStatus st = new invoiceStatus();
+            st.invoiceId = invoiceId;
+            st.createUserId = int.Parse(Session["UserID"].ToString());
+            st.isActive = 1;
+            switch (status)
+            {
+                case "Ready":
+                    st.status = "Collected";
+                    nextStatus = "InTheWay";
+                    break;
+                case "Collected":
+                    st.status = "InTheWay";
+                    nextStatus = "Done";
+                    break;
+                case "InTheWay":
+                    st.status = "Done";
+                    break;
+            }
+            #endregion
+
+            InvoiceModel invoiceModel = new InvoiceModel();
+            int res = await invoiceModel.saveOrderStatus(st);
+
+            JsonResult result = this.Json(new
+            {
+                message = st.status,
+                nextStatus = nextStatus,
+
+            }, JsonRequestBehavior.AllowGet);
+
+            return result;
         }
     }
 }

@@ -75,7 +75,7 @@ nav .logo {
 }
 
 .statis .c-profile img {
-  width: 130px;
+  width: 100%;
   margin-right: 20px;
   border: 1px solid #ddd;
 }
@@ -379,5 +379,17 @@ footer .copyright {
 
 table tbody td, table tbody th {
   font-size: 14px;
+}
+
+.message-block .row {
+  height: 500px;
+}
+
+.message-block h1 {
+  font-size: 160px;
+}
+
+.message-block p {
+  font-size: 12px;
 }
 
