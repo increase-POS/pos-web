@@ -29,16 +29,16 @@ namespace posWebApp.Controllers
             DashBoardModel dashBoardModel = new DashBoardModel();
          
             #region get user from cookie
-                if (Request.Cookies["Cookie1"] != null )
+                if (Request.Cookies["POSCookie"] != null )
             {
                 FormsAuthentication.SetAuthCookie(userModel.username, false);
 
-                string name = Request.Cookies["Cookie1"].Values["Image"];
-                Session["UserName"] = Request.Cookies["Cookie1"].Values["UserName"];
-                Session["UserID"] = Request.Cookies["Cookie1"].Values["UserID"];
-                Session["Image"] = Request.Cookies["Cookie1"].Values["Image"];
-                Session["lang"] = Request.Cookies["Cookie1"].Values["lang"];
-                Session["isAdmin"] = Request.Cookies["Cookie1"].Values["isAdmin"];
+                string name = Request.Cookies["POSCookie"].Values["Image"];
+                Session["UserName"] = Request.Cookies["POSCookie"].Values["UserName"];
+                Session["UserID"] = Request.Cookies["POSCookie"].Values["UserID"];
+                Session["Image"] = Request.Cookies["POSCookie"].Values["Image"];
+                Session["lang"] = Request.Cookies["POSCookie"].Values["lang"];
+                Session["isAdmin"] = Request.Cookies["POSCookie"].Values["isAdmin"];
 
                 #region get user permissions
                 PermissionModel permissionModel = new PermissionModel();
@@ -120,7 +120,7 @@ namespace posWebApp.Controllers
 
                     //encrypt the ticket and add it to a cookie
                     string enTicket = FormsAuthentication.Encrypt(authTicket);
-                    HttpCookie cookie = new HttpCookie("Cookie1", enTicket);
+                    HttpCookie cookie = new HttpCookie("POSCookie", enTicket);
                     cookie.Expires = DateTime.Now.AddMinutes(60);
                     cookie.HttpOnly = false;
                     cookie.Values.Add("UserName", HttpUtility.UrlEncode(userModel.fullName));
@@ -151,7 +151,7 @@ namespace posWebApp.Controllers
 
                     //encrypt the ticket and add it to a cookie
                     string enTicket = FormsAuthentication.Encrypt(authTicket);
-                    HttpCookie cookie = new HttpCookie("Cookie1", enTicket);
+                    HttpCookie cookie = new HttpCookie("POSCookie", enTicket);
                     cookie.Expires = DateTime.Now.AddMinutes(5);
                     cookie.HttpOnly = false;
                     cookie.Values.Add("UserName", HttpUtility.UrlEncode(userModel.fullName));
@@ -234,9 +234,9 @@ namespace posWebApp.Controllers
         {
             try { 
                 //clear cookie
-                if (Request.Cookies["Cookie1"] != null)
+                if (Request.Cookies["POSCookie"] != null)
                 {
-                    var c = new HttpCookie("Cookie1");
+                    var c = new HttpCookie("POSCookie");
                     c.Expires = DateTime.Now.AddDays(-1);
                     Response.Cookies.Add(c);
                 }

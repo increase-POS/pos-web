@@ -19,13 +19,13 @@ namespace posWebApp.Controllers
             try {
                 
             #region set session values
-                if (Request.Cookies["Cookie1"] != null)
+                if (Request.Cookies["POSCookie"] != null)
             {
-                Session["UserName"] = HttpUtility.UrlDecode(Request.Cookies["Cookie1"].Values["UserName"]);
-                Session["UserID"] = Request.Cookies["Cookie1"].Values["UserID"];
-                Session["Image"] = Request.Cookies["Cookie1"].Values["Image"];
-                Session["lang"] = Request.Cookies["Cookie1"].Values["lang"];
-                Session["isAdmin"] = Request.Cookies["Cookie1"].Values["isAdmin"];
+                Session["UserName"] = HttpUtility.UrlDecode(Request.Cookies["POSCookie"].Values["UserName"]);
+                Session["UserID"] = Request.Cookies["POSCookie"].Values["UserID"];
+                Session["Image"] = Request.Cookies["POSCookie"].Values["Image"];
+                Session["lang"] = Request.Cookies["POSCookie"].Values["lang"];
+                Session["isAdmin"] = Request.Cookies["POSCookie"].Values["isAdmin"];
 
                 #region get user permissions
                 PermissionModel permissionModel = new PermissionModel();
