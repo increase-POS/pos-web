@@ -9,6 +9,14 @@
     System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(Session["lang"] as string);
     System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
 
+
+    var btnStatusDisplay="";
+    if (Model.status == "Done") {
+        btnStatusDisplay = "none";
+    }
+    else {
+        btnStatusDisplay = "";
+    }
 }
 
 
@@ -20,7 +28,7 @@
                 <div class="bcrumb-block">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">@AppResource.DeliveryList</a></li>
+                            <li class="breadcrumb-item"><a id="a_title" href="#">@AppResource.DeliveryList</a></li>
                             <li class="breadcrumb-item active" aria-current="page">@AppResource.InvoiceDetails</li>
                         </ol>
                     </nav>
@@ -97,9 +105,17 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12" id="div-btn-status" style="display:@btnStatusDisplay">
+                <button id="btn-status" class="btn btn-dark btn-block back" onclick="changeStatus()">
+                    @Html.invoiceNextStatusConverter(Model.status)
+                </button>
+            </div>
             <div class="col-12">
                 @using (Html.BeginForm("DeliveryList", "Delivery", FormMethod.Post, new { id = "form2" }))
                 {
+                    <input type="hidden" value="@Model.status" id="status" />
+                    <input type="hidden" value="@Model.invoiceId" id="invoiceId" />
+                    <input type="hidden" id="currentPage" value="@ViewBag.Page" />
                     <button class="btn btn-primary btn-block back">@AppResource.Back</button>
                 }
             </div>
@@ -109,3 +125,49 @@
 <div class="scroll-to-top" title="Go Up">
     <i class="fa fa-chevron-up fa-lg"></i>
 </div>
+
+<script>
+
+    function changeStatus() {
+        var invId = $('#invoiceId').val();
+        var status = $('#status').val();
+
+        $.ajax({
+            url: '@Url.Action("changeOrderStatus", "Delivery")',
+            data: { invoiceId: invId, status: status },
+            type: "POST",
+            async: false,
+            success: function (result) {
+                if (result.message != "") {
+                    $('#status').val(result.message);
+                    $('#btn-status').text(result.nextStatus);
+
+                    if (result.message == "Done")
+                        $('#div-btn-status').fadeOut(600);
+                }               
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert('oops, something bad happened');
+            }
+        });
+    }
+
+    $('#btn_back').click(function () {
+       
+        goBack();
+    });
+
+    $('#a_title').click(function () {
+        goBack();
+
+    });
+
+    function goBack() {
+        var currentPage = $('#currentPage').val();
+        var action = 'DeliveryList?page='+currentPage;
+        $('#form2').attr('action', action);
+        $('#form2').submit();
+
+        return false;
+    }
+</script>

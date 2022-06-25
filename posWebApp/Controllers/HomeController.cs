@@ -14,7 +14,7 @@ namespace posWebApp.Controllers
     {
         BranchModel branchModel = new BranchModel();
 
-        public async Task<ActionResult> Index(DashBoardModel dashBoardModel, int redirect)
+        public async Task<ActionResult> Index(DashBoardModel dashBoardModel)
         {
             try {
                 

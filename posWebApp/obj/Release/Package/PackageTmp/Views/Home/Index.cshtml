@@ -497,8 +497,8 @@
             success: function (result) {
                 $('#purchase').text(result.purchasesCount);
                 $('#sales').text(result.salesCount);
-                $('#customersCount').text(result.customersCount);
-                $('#vendorsCount').text(result.vendorsCount);
+                $('#cash').text(result.balance);
+                $('#users').text(result.onLineUsersCount);
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
         alert('oops, something bad happened');

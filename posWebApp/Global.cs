@@ -8,7 +8,7 @@ namespace posWebApp.Models
     public class Global
     {
         //public static string APIUri = "http://localhost:107/api/";
-       public static string APIUri = "http://192.168.1.5:44370/api/";
+       public static string APIUri = "";
 
         #region pagination settings
         public static int rowsInPage = 5;

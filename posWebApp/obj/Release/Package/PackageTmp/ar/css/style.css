@@ -58,7 +58,7 @@ body a:hover{text-decoration: none !important;}
 }
 
 .statis .c-profile img {
-  width: 130px;
+  width: 100%;
   margin-left: 20px;
   border: 1px solid #ddd;
   float: right;
@@ -380,20 +380,30 @@ footer .copyright {
 }
 /* End Login Form */
 
+nav .logo {
+  position: relative;
+  margin: auto;
+}
 
-  nav .logo {
-    position: relative;
-    margin: auto;
-  }
+.navbar .main-menu-button {
+  display: block;
+  font-size: 18px;
+  cursor: pointer;
+  width: 50px;
+}
 
-  .navbar .main-menu-button {
-    display: block;
-    font-size: 18px;
-    cursor: pointer;
-    width: 50px;
-  }
+.navbar .main-menu-button .x {
+  display: none;
+}
 
-  .navbar .main-menu-button .x {
-    display: none;
-  }
+.message-block .row {
+  height: 500px;
+}
 
+.message-block h1 {
+  font-size: 160px;
+}
+
+.message-block p {
+  font-size: 12px;
+}

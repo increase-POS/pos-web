@@ -25,12 +25,15 @@ namespace posWebApp.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login(UserModel userModel)
         {
-            try { 
-            DashBoardModel dashBoardModel = new DashBoardModel();
+            try {
+                #region set APIUri
+                Global.APIUri = Properties.Settings.Default.APIUri;
+                #endregion
+                DashBoardModel dashBoardModel = new DashBoardModel();
          
-            #region get user from cookie
+                #region get user from cookie
                 if (Request.Cookies["POSCookie"] != null )
-            {
+                {
                 FormsAuthentication.SetAuthCookie(userModel.username, false);
 
                 string name = Request.Cookies["POSCookie"].Values["Image"];
@@ -143,7 +146,7 @@ namespace posWebApp.Controllers
                               1,
                               userModel.username,
                               DateTime.Now,
-                              DateTime.Now.AddMinutes(5), // expiry
+                              DateTime.Now.AddMinutes(15), // expiry
                               false,
                               "",
                               "/"
@@ -152,7 +155,7 @@ namespace posWebApp.Controllers
                     //encrypt the ticket and add it to a cookie
                     string enTicket = FormsAuthentication.Encrypt(authTicket);
                     HttpCookie cookie = new HttpCookie("POSCookie", enTicket);
-                    cookie.Expires = DateTime.Now.AddMinutes(5);
+                    cookie.Expires = DateTime.Now.AddMinutes(15);
                     cookie.HttpOnly = false;
                     cookie.Values.Add("UserName", HttpUtility.UrlEncode(userModel.fullName));
                     cookie.Values.Add("UserId", userModel.userId.ToString());
@@ -187,13 +190,13 @@ namespace posWebApp.Controllers
               
                 #endregion
             }
-                #endregion
-            }
+            #endregion
+        }
             catch
             {
                 return RedirectToAction("Error", "Home");
-            }
-        }
+    }
+}
 
 
         public ActionResult RedirectUser()
