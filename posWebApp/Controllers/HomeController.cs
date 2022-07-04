@@ -41,29 +41,36 @@ namespace posWebApp.Controllers
                     AccountController ac = new AccountController();
                     ac.ControllerContext = new ControllerContext(this.Request.RequestContext, ac);
 
-                    return ac.RedirectUser();
+                    return await ac.RedirectUser();
                 }
             }
             #endregion
            
-            #region get user image
-            UserModel user = new UserModel();
-            var image = Session["Image"];
+            //#region get user image
+            //UserModel user = new UserModel();
+            //var image = Session["Image"];
             
-            if ((Session["Image"].ToString() != "" && Session["info.image"] == null) || (Session["info.image"] != null && Session["info.image"].ToString() == "") )
-            {
-                if (image != null && image.ToString() != "")
-                {
-                    var imageArr = await user.downloadImage(Session["Image"].ToString());
-                    Session["info.image"] = imageArr;//storing session.
-                                                     //ViewBag.Image = imageArr;
-                }
-                else
-                {
-                    Session["info.image"] = "";
-                }
-            }
-            #endregion
+            //if ((Session["Image"].ToString() != "" && Session["info.image"] == null) || (Session["info.image"] != null && Session["info.image"].ToString() == "") )
+            //{
+            //        try
+            //        {
+            //            if (image != null && image.ToString() != "")
+            //            {
+            //                var imageArr = await user.downloadImage(Session["Image"].ToString());
+            //                Session["info.image"] = imageArr;//storing session.
+            //                                                 //ViewBag.Image = imageArr;
+            //            }
+            //            else
+            //            {
+            //                Session["info.image"] = "";
+            //            }
+            //        }
+            //        catch
+            //        {
+            //            Session["info.image"] = "";
+            //        }
+            //}
+            //#endregion
             #region get branches
             List<BranchModel> branches = new List<BranchModel>();
             if (int.Parse(Session["UserID"].ToString()) == 2)

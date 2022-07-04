@@ -60,7 +60,7 @@ namespace posWebApp.Controllers
 
                 #region redirect according to permission
                 
-                    return RedirectUser();
+                    return await RedirectUser();
 
                 #endregion
             }
@@ -186,7 +186,7 @@ namespace posWebApp.Controllers
 
                 #region redirect
 
-               return RedirectUser();
+               return await RedirectUser();
               
                 #endregion
             }
@@ -199,9 +199,26 @@ namespace posWebApp.Controllers
 }
 
 
-        public ActionResult RedirectUser()
+        public async Task<ActionResult> RedirectUser()
         {
-            try { 
+            #region get user image
+
+            if ((Session["Image"].ToString() != "" && Session["info.image"] == null) || (Session["info.image"] != null && Session["info.image"].ToString() == ""))
+            {
+                try
+                {
+                    UserModel user = new UserModel();
+                    var imageArr = await user.downloadImage(Session["Image"].ToString());
+                    Session["info.image"] = imageArr;//storing session.
+                }
+                catch
+                {
+                    Session["info.image"] = null;
+                }
+            }
+            #endregion
+            try
+            { 
                 if (Session["showDashBoard"] == null)
                 {
                     return RedirectToAction("Login", "Account");

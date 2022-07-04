@@ -70,20 +70,18 @@
                     <table class="table table-hover">
                         <thead>
                             <tr style="background-color: #e7f3fa;">
-                                <th scope="col">@AppResource.SequenceNumber</th>
-                                <th scope="col">#</th>
-                                <th scope="col">@AppResource.Date</th>
-                                <th scope="col">@AppResource.Total</th>
+                                <th scope="col" class="col-4">#</th>
+                                <th scope="col" class="col-4">@AppResource.Date</th>
+                                <th scope="col" class="col-4">@AppResource.Total</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model.PaginatedBlogs())
                             {
                                 <tr>
-                                    <th scope="row">@item.invoiceId</th>
-                                    <td>@item.invNumber</td>
-                                    <td>@item.invDate.ToString().Split(' ')[0]</td>
-                                    <td>@Html.accuracyFormatWithCurrency((string)item.totalNet.ToString())</td>
+                                    <th scope="row">@item.invNumber</th>
+                                    <td >@item.invDate.ToString().Split(' ')[0]</td>
+                                    <td >@Html.accuracyFormatWithCurrency((string)item.totalNet.ToString())</td>
                                 </tr>
                             }
                         </tbody>
