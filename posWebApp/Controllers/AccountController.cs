@@ -202,19 +202,20 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> RedirectUser()
         {
             #region get user image
-
-            if ((Session["Image"].ToString() != "" && Session["info.image"] == null) || (Session["info.image"] != null && Session["info.image"].ToString() == ""))
+            try
             {
-                try
+                if ((Session["Image"].ToString() != "" && Session["info.image"] == null) || (Session["info.image"] != null && Session["info.image"].ToString() == ""))
                 {
                     UserModel user = new UserModel();
                     var imageArr = await user.downloadImage(Session["Image"].ToString());
-                    Session["info.image"] = imageArr;//storing session.
+                    Session["info.image"] = imageArr;//storing session.                   
                 }
-                catch
-                {
+                else
                     Session["info.image"] = null;
-                }
+            }
+            catch
+            {
+                Session["info.image"] = null;
             }
             #endregion
             try
