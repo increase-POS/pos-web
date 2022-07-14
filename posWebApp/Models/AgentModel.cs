@@ -149,13 +149,16 @@ namespace posWebApp.Models
                 {
                     System.IO.File.Delete(tmpPath);
                 }
-                using (FileStream fs = new FileStream(tmpPath, FileMode.Create, FileAccess.ReadWrite))
+                if (byteImg != null)
                 {
-                    fs.Write(byteImg, 0, byteImg.Length);
+                    using (FileStream fs = new FileStream(tmpPath, FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        fs.Write(byteImg, 0, byteImg.Length);
+                    }
+                    string imreBase64Data = Convert.ToBase64String(byteImg);
+                    //imgDataURL = string.Format("data:image/jpeg;base64,{0}", imreBase64Data);
+                    imgDataURL = string.Format("data:image/;base64,{0}", imreBase64Data);
                 }
-                string imreBase64Data = Convert.ToBase64String(byteImg);
-                imgDataURL = string.Format("data:image/jpeg;base64,{0}", imreBase64Data);
-                imgDataURL = string.Format("data:image/;base64,{0}", imreBase64Data);
             }
 
             return imgDataURL;

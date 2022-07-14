@@ -22,7 +22,9 @@
                         <span></span>
                         <div class="form-group">
                             <label for="cnames">@AppResource.Vendors</label>
-                            @Html.DropDownListFor(m => m.Agent.agentId, new SelectList(ViewBag.vendors, "agentId", "name"), new { @class = "form-control", name = "agentId", Id = "agentId", @onChange = "refreshFunc();" })
+                            @Html.TextBox("agentName", Model.Agent.name, new { @class = "form-control", Id = "agentName", name = "agentName" })
+                            <input type="hidden" id="agentId" name="agentId" value="@Model.Agent.agentId" />
+                            @*@Html.DropDownListFor(m => m.Agent.agentId, new SelectList(ViewBag.vendors, "agentId", "name"), new { @class = "form-control", name = "agentId", Id = "agentId", @onChange = "refreshFunc();" })*@
                         </div>
                     </div>
                 }
@@ -111,10 +113,9 @@
             </div>
 
             <div class="col-12">
-                @using (Html.BeginForm("Vendors", "Agent", FormMethod.Post, new { id = "form2" }))
-                {
-                    <button class="btn btn-primary btn-block back" id="btn_back">Back</button>
-                }
+
+                <button class="btn btn-primary btn-block back" id="btn_back">Back</button>
+
             </div>
         </div>
     </div>
@@ -123,7 +124,55 @@
 <div class="scroll-to-top" title="Go Up">
     <i class="fa fa-chevron-up fa-lg"></i>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 <script>
+    $(document).ready(function () {
+
+        $("#agentName").autocomplete({
+            source: function (request, response) {
+                var customer = new Array();
+                $.ajax({
+                    url: "/Agent/GetVendors",
+                    type: "POST",
+                    dataType: "json",
+                    async: true,
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.label,
+                                value: item.label,
+                                ID: item.val
+                            };
+                        }));
+
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $('#agentId').val(ui.item.ID);
+                $('#agentName').text(ui.item.label);
+                refreshFunc();
+            },
+            messages: {
+                noResults: "", results: function (resultsCount) { }
+            }
+        });
+
+        $('#btn_back').click(function () {
+
+            goBack();
+        });
+
+        $('#a_title').click(function () {
+            goBack();
+
+        });
+
+    });
     function refreshFunc() {
 
         var agentId = $('#agentId').val();
@@ -131,26 +180,17 @@
         var action = 'VendorPayments?agentId=' + agentId;
         $('#form1').attr('action', action);
 
-         $('#form1').submit();
+        $('#form1').submit();
         return false;
     }
 
-    $('#btn_back').click(function () {
-
-        goBack();
-     });
-
-     $('#a_title').click(function() {
-         goBack();
-
-        });
 
     function goBack() {
-         var agentId = $('#agentId').val();
-         var action = 'Vendors?agentId=' + agentId;
-        $('#form2').attr('action', action);
-         $('#form2').submit();
+        var agentId = $('#agentId').val();
+        var action = 'Vendors?agentId=' + agentId;
+        $('#form1').attr('action', action);
+        $('#form1').submit();
 
-          return false;
+        return false;
     }
 </script>

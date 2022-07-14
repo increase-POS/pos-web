@@ -20,17 +20,62 @@ namespace posWebApp.Controllers
         AgentModel agentModel = new AgentModel();
 
         #region customer view
-        public async Task<ActionResult> Customers(AgentModel agentModel)
+        [HttpPost]
+        public async Task<JsonResult> GetCustomers(string Prefix)
         {
-            try { 
-                #region get customers
-                var customers = await agentModel.GetAgentsActive("c");
-                ViewBag.customers = customers;
-                #endregion
+            //Note : you can bind same list from database  
+            var customers = await agentModel.GetAgentsActive("c");
+            Session["Customers"] = customers;
+            //Searching records from list using LINQ query 
+
+            //var customerRes = customers.Where(s => s.name.ToLower().Contains(Prefix.ToLower())).Select(w => w).ToList();
+            var customerRes = (from customer in customers
+                                where customer.name.ToLower().Contains(Prefix.ToLower())
+                                select new
+                                {
+                                    label = customer.name,
+                                    val = customer.agentId
+                                }).ToList();
+            return Json(customerRes, JsonRequestBehavior.AllowGet);
+
+        }
+
+  
+        //public async Task<ActionResult> Customers([Bind(Include = "agentId")]AgentModel agentModel)
+        //{
+        //    try { 
+        //        //#region get customers
+        //        //var customers = await agentModel.GetAgentsActive("c");
+        //        //ViewBag.customers = customers;
+        //        //Session["Customers"] = customers;
+        //        //#endregion
+
+        //        #region customer info
+        //        if(agentModel.agentId != 0)
+        //            agentModel = await agentModel.getAgentById(agentModel.agentId);
+
+        //        var image = agentModel.image;
+        //        if (image != null && image.ToString() != "")
+        //        {
+        //            var imageArr = await agentModel.downloadImage(agentModel.image);
+        //            ViewBag.Image = imageArr;
+        //        }
+        //        #endregion
+        //        return View(agentModel);
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
+        //}
+        public async Task<ActionResult> Customers(int agentId=0)
+        {
+            try
+            {
 
                 #region customer info
-                if(agentModel.agentId != 0)
-                    agentModel = await agentModel.getAgentById(agentModel.agentId);
+                if (agentId != 0)
+                    agentModel = await agentModel.getAgentById(agentId);
 
                 var image = agentModel.image;
                 if (image != null && image.ToString() != "")
@@ -46,7 +91,6 @@ namespace posWebApp.Controllers
                 return RedirectToAction("Error", "Home");
             }
         }
-
         [HttpPost]
         public async Task<ActionResult> GetAgentInfo(int agentId)
         {
@@ -89,10 +133,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> SalesInvoices(int agentId,int page=1)
         {
             try { 
-                #region get customers
-                var customers = await agentModel.GetAgentsActive("c");
-                ViewBag.customers = customers;
-                #endregion
+                //#region get customers
+                //var customers = await agentModel.GetAgentsActive("c");
+                //ViewBag.customers = customers;
+                //#endregion
 
                 #region customer info
                 agentModel = await agentModel.getAgentById(agentId);
@@ -132,10 +176,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> Quotations(int agentId, int page = 1)
         {
             try { 
-                #region get customers
-                var customers = await agentModel.GetAgentsActive("c");
-                ViewBag.customers = customers;
-                #endregion
+                //#region get customers
+                //var customers = await agentModel.GetAgentsActive("c");
+                //ViewBag.customers = customers;
+                //#endregion
 
                 #region customer info
                 agentModel = await agentModel.getAgentById(agentId);
@@ -173,10 +217,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> CustomerOrders(int agentId, int page = 1)
         {
             try { 
-                #region get customers
-                var customers = await agentModel.GetAgentsActive("c");
-                ViewBag.customers = customers;
-                #endregion
+                //#region get customers
+                //var customers = await agentModel.GetAgentsActive("c");
+                //ViewBag.customers = customers;
+                //#endregion
 
                 #region customer info
                 agentModel = await agentModel.getAgentById(agentId);
@@ -214,10 +258,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> CustomerPayments(int agentId, int page = 1)
         {
             try { 
-                #region get customers
-                var customers = await agentModel.GetAgentsActive("c");
-                ViewBag.customers = customers;
-                #endregion
+                //#region get customers
+                //var customers = await agentModel.GetAgentsActive("c");
+                //ViewBag.customers = customers;
+                //#endregion
 
                 #region customer info
                 agentModel = await agentModel.getAgentById(agentId);
@@ -292,17 +336,63 @@ namespace posWebApp.Controllers
         #endregion
 
         #region vendor view
-        public async Task<ActionResult> Vendors(AgentModel agentModel)
+        //public async Task<ActionResult> Vendors(AgentModel agentModel)
+        //{
+        //    try { 
+        //    #region get customers
+        //    var vendors = await agentModel.GetAgentsActive("v");
+        //    ViewBag.vendors = vendors;
+        //    #endregion
+
+        //    #region customer info
+        //    if (agentModel.agentId != 0)
+        //        agentModel = await agentModel.getAgentById(agentModel.agentId);
+
+        //    var image = agentModel.image;
+        //    if (image != null && image.ToString() != "")
+        //    {
+        //        var imageArr = await agentModel.downloadImage(agentModel.image);
+        //        ViewBag.Image = imageArr;
+        //    }
+        //    #endregion
+        //    return View(agentModel);
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Error", "Home");
+        //    }
+        //}
+        [HttpPost]
+        public async Task<JsonResult> GetVendors(string Prefix)
+        {
+            //Note : you can bind same list from database  
+            var vendors = await agentModel.GetAgentsActive("v");
+            Session["Customers"] = vendors;
+            //Searching records from list using LINQ query 
+
+            //var customerRes = customers.Where(s => s.name.ToLower().Contains(Prefix.ToLower())).Select(w => w).ToList();
+            var vendorRes = (from vendor in vendors
+                               where vendor.name.ToLower().Contains(Prefix.ToLower())
+                               select new
+                               {
+                                   label = vendor.name,
+                                   val = vendor.agentId
+                               }).ToList();
+            return Json(vendorRes, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public async Task<ActionResult> Vendors(int agentId=0)
         {
             try { 
-            #region get customers
-            var vendors = await agentModel.GetAgentsActive("v");
-            ViewBag.vendors = vendors;
-            #endregion
+            //#region get customers
+            //var vendors = await agentModel.GetAgentsActive("v");
+            //ViewBag.vendors = vendors;
+            //#endregion
 
             #region customer info
-            if (agentModel.agentId != 0)
-                agentModel = await agentModel.getAgentById(agentModel.agentId);
+            if (agentId != 0)
+                agentModel = await agentModel.getAgentById(agentId);
 
             var image = agentModel.image;
             if (image != null && image.ToString() != "")
@@ -326,10 +416,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> PurchasesInvoices(int agentId, int page = 1)
         {
             try { 
-            #region get customers
-            var vendors = await agentModel.GetAgentsActive("v");
-            ViewBag.vendors = vendors;
-            #endregion
+            //#region get customers
+            //var vendors = await agentModel.GetAgentsActive("v");
+            //ViewBag.vendors = vendors;
+            //#endregion
 
             #region customer info
             agentModel = await agentModel.getAgentById(agentId);
@@ -368,10 +458,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> VendorOrders(int agentId, int page = 1)
         {
             try { 
-            #region get customers
-            var vendors = await agentModel.GetAgentsActive("v");
-            ViewBag.vendors = vendors;
-            #endregion
+            //#region get customers
+            //var vendors = await agentModel.GetAgentsActive("v");
+            //ViewBag.vendors = vendors;
+            //#endregion
 
             #region customer info
             agentModel = await agentModel.getAgentById(agentId);
@@ -409,10 +499,10 @@ namespace posWebApp.Controllers
         public async Task<ActionResult> VendorPayments(int agentId, int page = 1)
         {
             try { 
-            #region get customers
-            var vendors = await agentModel.GetAgentsActive("v");
-            ViewBag.vendors = vendors;
-            #endregion
+            //#region get customers
+            //var vendors = await agentModel.GetAgentsActive("v");
+            //ViewBag.vendors = vendors;
+            //#endregion
 
             #region customer info
             agentModel = await agentModel.getAgentById(agentId);
@@ -444,5 +534,7 @@ namespace posWebApp.Controllers
         }
 
         #endregion
+
+       
     }
 }

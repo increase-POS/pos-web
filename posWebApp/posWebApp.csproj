@@ -219,6 +219,7 @@
   <ItemGroup>
     <Content Include="ar\css\bootstrap-rtl.min.css" />
     <Content Include="ar\css\font-awesome.css" />
+    <Content Include="ar\css\jquery-ui.css" />
     <Content Include="ar\css\style.css" />
     <Content Include="ar\fonts\fontawesome-webfont.svg" />
     <Content Include="ar\images\avatar.jpg" />
@@ -282,6 +283,7 @@
     <Content Include="css\style.css" />
     <Content Include="en\css\bootstrap.css" />
     <Content Include="en\css\font-awesome.css" />
+    <Content Include="en\css\jquery-ui.css" />
     <Content Include="en\css\style.css" />
     <Content Include="en\fonts\fontawesome-webfont.svg" />
     <Content Include="en\images\avatar.jpg" />
